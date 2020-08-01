@@ -30,15 +30,14 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import GridSearchCV
 
 
-xpath = './workspace/clinvarHC_RawVariables.csv' ; ypath = './workspace/clinvarHC_RawTarget.csv'
 SEED = 2718281
 
-X = pd.read_csv(xpath,sep = ',',index_col='ChrPosRefAlt')
+## esto asume que estas parado ya en la carpeta ppal del repositorio
+datapath = './data/clinvarHC_modeling.csv.gz'
+data = pd.read_csv(datapath,sep = ',',index_col='ChrPosRefAlt')
+X,y = data.drop(['ClinvarHC'],axis = 1), data[['ClinvarHC']]
 
-y = pd.read_csv(ypath,sep = ',',header = None)
-y.columns = ['ChrPosRefAlt','ClinvarHC']
-y.set_index(['ChrPosRefAlt'],inplace = True) 
-
+## train test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.50, random_state=SEED,stratify = y)
 
 
