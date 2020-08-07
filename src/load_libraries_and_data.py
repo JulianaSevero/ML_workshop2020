@@ -34,7 +34,7 @@ SEED = 2718281
 
 ## esto asume que estas parado ya en la carpeta ppal del repositorio
 datapath = './data/clinvarHC_modeling.csv.gz'
-data = pd.read_csv(datapath,sep = ',',index_col='ChrPosRefAlt')
+data = pd.read_csv(datapath,sep = ',',index_col='ChrPosRefAlt',nrows = 500)
 X,y = data.drop(['ClinvarHC'],axis = 1), data[['ClinvarHC']]
 
 ## train test
