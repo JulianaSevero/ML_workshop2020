@@ -79,7 +79,7 @@ def my_train_test_plot(gridsearch,grid,hyp,ax = None):
         
 
     results = gridsearch.cv_results_
-    cc = ['mean_train_score','std_train_score','mean_test_score']
+    cc = ['mean_train_score','std_train_score','mean_test_score','std_test_score']
     performance = pd.DataFrame(itemgetter(*cc)(results),index = cc,columns = values).transpose()
 
     performance[name] = [str(v) for v in values]
@@ -87,15 +87,18 @@ def my_train_test_plot(gridsearch,grid,hyp,ax = None):
     perf_train = performance.mean_train_score
     perf_test = performance.mean_test_score
 
-    plt.plot(performance[name], performance.mean_test_score)
+    ax.plot(performance[name], performance.mean_train_score)
+    ax.plot(performance[name], performance.mean_test_score)
 
-    ylow =   perf_train - performance.std_train_score
-    yup = perf_train + performance.std_train_score
+    ylow_train =   perf_train - performance.std_train_score
+    yup_train = perf_train + performance.std_train_score
 
-    ax.fill_between(performance[name], ylow, yup,
-        alpha=0.5, edgecolor='lightgray', facecolor='lightgray')
+    ax.fill_between(performance[name], ylow_train, yup_train, alpha=0.5, edgecolor='lightgray', facecolor='lightgray')
 
-    ax.set_ylabel('ROC-AUC')
+    ylow_test =   perf_test - performance.std_test_score
+    yup_test = perf_test + performance.std_test_score
+
+    ax.fill_between(performance[name], ylow_test, yup_test, alpha=0.5, edgecolor='lightgray', facecolor='lightgray')
+    ax.set_ylabel('score')
     ax.set_xlabel(hyp)
     ax.set_xticklabels(np.round(values,2), rotation=45)
-
