@@ -102,3 +102,18 @@ def my_train_test_plot(gridsearch,grid,hyp,ax = None):
     ax.set_ylabel('score')
     ax.set_xlabel(hyp)
     ax.set_xticklabels(np.round(values,2), rotation=45)
+
+
+def univariate_exploring(pipe,hyp, range,cv = 5):
+  ## defino grilla
+  gridname = 'clasificador__%s'%hyp
+  param_grid = [
+    {gridname:range}
+  ]
+
+  search = GridSearchCV(pipeline, param_grid, 
+                        cv=cv,return_train_score = True,
+                      scoring = 'average_precision').fit(X_train, Y_train)
+
+  plot = my_train_test_plot(gridsearch=search,grid=param_grid,hyp=hyp)
+  return(plot)
