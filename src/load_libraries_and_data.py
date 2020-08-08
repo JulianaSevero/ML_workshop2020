@@ -39,7 +39,8 @@ X,y = data.drop(['ClinvarHC'],axis = 1), data[['ClinvarHC']]
 
 ## train test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.50, random_state=SEED,stratify = y)
-
+Y_train = y_train.ClinvarHC.ravel()
+Y_test = y_test.ClinvarHC.ravel()
 
 categorical_feature_mask = X_train.dtypes==object       # esto nos da un vector booleano 
 categorical_columns = X_train.columns[categorical_feature_mask].tolist()  # acá picnhamos los nombres de esas columnas
