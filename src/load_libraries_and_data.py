@@ -111,7 +111,7 @@ def univariate_exploring(pipe,hyp, range,cv = 5):
     {gridname:range}
   ]
 
-  search = GridSearchCV(pipeline, param_grid, 
+  search = GridSearchCV(pipe, param_grid, 
                         cv=cv,return_train_score = True,
                       scoring = 'average_precision').fit(X_train, Y_train)
 
