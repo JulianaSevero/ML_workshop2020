@@ -66,7 +66,6 @@ def my_train_test_plot(gridsearch,grid,hyp,ax = None,ylim = [0,1],ylabel = 'scor
     ax.fill_between(performance[name], ylow_test, yup_test, alpha=0.5, edgecolor='lightgray', facecolor='lightgray')
     ax.set_ylabel(ylabel)
     ax.set_xlabel(hyp)
-    ax.set_title("scientific notation")
     if round_xticks != -1:
       ax.set_xticklabels(np.round(values,round_xticks), rotation=45)
     else:
@@ -75,7 +74,7 @@ def my_train_test_plot(gridsearch,grid,hyp,ax = None,ylim = [0,1],ylabel = 'scor
     ax.set_ylim(ylim)
 
 
-def univariate_exploring(pipe,hyp, range,cv = 5):
+def univariate_exploring(pipe,X,Y, hyp, range,cv = 5, ylim = [0,1]):
   ## defino grilla
   gridname = 'clasificador__%s'%hyp
   param_grid = [
@@ -84,7 +83,7 @@ def univariate_exploring(pipe,hyp, range,cv = 5):
 
   search = GridSearchCV(pipe, param_grid, 
                         cv=cv,return_train_score = True,
-                      scoring = 'average_precision').fit(X_train, Y_train)
+                      scoring = 'average_precision').fit(X, Y)
 
-  plot = my_train_test_plot(gridsearch=search,grid=param_grid,hyp=hyp)
+  plot = my_train_test_plot(gridsearch=search,grid=param_grid,hyp=hyp,ylim = ylim,ylabel = hyp)
   return(plot)
